@@ -1,0 +1,23 @@
+-getFileName ++
+-getFileExtension++
+-buttonbugs
+
+	setTimeCalc fps according to that +-
+-setmFrameSize to mLabel size; ++
+ 
+-TimeCalc realtime h:m:s:ms ::: from mFrameCount :: WriteOnframe :: return std::string;
+
+-save current frame button: saveFrame function
+
+-loop checkbox::if checked: when finished mFrameCount=0 >> StartVid:
+	if not checked: when finished mFrameCount = 0::buttonSettext("Play") VideoStop;
+
+-listitem selected changed >> mPlaybutton settext(Play) :: video Pause
+	when changed back to original :: video continue;
+
+-fullscreen size adjustments
+
+-background substraction
+-writeOnFrame:: total number of cars detected since start;
+	total number of cars in the past minute;
+		when finished calculate average;
