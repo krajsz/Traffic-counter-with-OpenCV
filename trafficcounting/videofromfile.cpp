@@ -1,6 +1,6 @@
 #include "videofromfile.h"
 
-VideoFromFile::VideoFromFile(int _winCount, QVector<QString> _winNames)
+VideoFromFile::VideoFromFile(int _winCount, QVector<QString> _winNames): mWinCount(_winCount), mWinNames(_winNames)
 {
     Initialize(_winCount, _winNames);
 }

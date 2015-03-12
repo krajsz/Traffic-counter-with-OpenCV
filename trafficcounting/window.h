@@ -46,6 +46,9 @@ private:
     void GetVideoLength(std::string _fileName);
     void SearchForObject(cv::Mat &_thresholdImage, cv::Mat &_CamImage);
     void TestTrackBars();
+    bool IsBetween(double _min, double _max, double _value);
+    double CalculateBrightness(cv::Mat _CamImage);
+
 
     int InitTimeCalcByExt(const char * _fileExt);
 
@@ -74,6 +77,7 @@ private:
     QLabel* mCityInfo;
     QLabel* mStreetInfo;
     QLabel* mTimeLabel;
+    QLabel* mBrightnessInfo;
 
     QCheckBox* mShowContours;
 
@@ -103,6 +107,7 @@ private:
     int mThreshMin;
     int mThreshMax;
     int mBlur;
+    double mBrightnessOfImage;
 
     std::string mLastListItemStr;
     std::string mSelectedListItem;

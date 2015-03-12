@@ -1,6 +1,6 @@
 #include "timecalc.h"
 
-TimeCalc::TimeCalc()
+TimeCalc::TimeCalc():mMS(0), mMSeconds(0), mM(0),mMinutes(0),mSeconds(0),mS(0),mH(0),mHours(0)
 {
 }
 TimeCalc::~TimeCalc()
@@ -17,7 +17,6 @@ int TimeCalc::GetRounded(float _mSec)
     {
         return std::floor(_mSec+0.5);
     }
-
 }
 
 void TimeCalc::Reset()
@@ -29,7 +28,7 @@ void TimeCalc::Reset()
     mCurrentTime.str("");
 }
 
-double TimeCalc::GetMinutesD() const
+const double TimeCalc::GetMinutesD() const
 {
     return static_cast<double> (mMS) / 1000.0 / 60.0;
 }
@@ -57,7 +56,7 @@ std::string TimeCalc::CurrentTime(int _currentMS)
 }
 
 
-int TimeCalc::GetMinutes() const
+const int TimeCalc::GetMinutes() const
 {
     return mMinutes;
 }

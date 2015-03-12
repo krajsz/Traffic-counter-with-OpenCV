@@ -4,7 +4,7 @@ Font::Font(std::pair<int, int> _startCoord, int _fontFace, BGRdColor _FontColor,
 {
     Initialize(_startCoord, _fontFace, _FontColor, _thickness, _fontScale);
 }
-Font::Font()
+Font::Font(): mStartCoord(0,0), mFontScale(8),mColor(255,255,255),mThickness(1),mFontFace(1)
 {
 }
 

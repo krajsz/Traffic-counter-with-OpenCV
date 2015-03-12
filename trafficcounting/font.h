@@ -9,6 +9,7 @@
 #include "opencv2/videoio.hpp"
 #include <opencv2/video.hpp>
 #include <opencv2/core.hpp>
+
 typedef struct bgrdColor
 {
     double _b;

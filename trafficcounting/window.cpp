@@ -126,6 +126,11 @@ int Window::Init(QString _winName, QSize _winSize)
     this->mSecondMethod->adjustSize();
     this->mSecondMethod->show();
 
+    this->mBrightnessInfo = new QLabel(this);
+    this->mBrightnessInfo->setText("Brightness: ");
+    this->mBrightnessInfo->adjustSize();
+    this->mBrightnessInfo->move(QPoint(this->mShowContours->pos().x()+ this->mShowContours->size().width()+ 35, this->mShowContours->pos().y()+ 4));
+    this->mBrightnessInfo->show();
 
     this->mLCDNum = new QLCDNumber(5, this);
     this->mLCDNum->setObjectName("mLCDNum");
@@ -247,6 +252,30 @@ void Window::InitWindow(QString _winName, QSize _winSize, Qt::WindowState _winSt
     this->setWindowTitle(mWinName);
     this->setWindowState(_winState);
 }
+bool Window::IsBetween(double _min, double _max, double _value)
+{
+    return _value >= _min && _value <= _max;
+}
+
+double Window::CalculateBrightness(cv::Mat _CamImage)
+{
+    cv::Mat _tmp = _CamImage.clone();
+    cv::cvtColor(_tmp, _tmp,CV_BGR2RGB);
+    cv::Vec3b bgrVal;
+    double _Value = 0;
+    int _step = 10;
+    for (int i = 0; i < _CamImage.rows; i+=  _step)
+    {
+        for (int j = 0; j < _CamImage.cols; j+=  _step)
+        {
+            bgrVal = _tmp.at<cv::Vec3b>(i,j);
+            _Value += (bgrVal[2]* 0.114 + bgrVal[1] * 0.587 + bgrVal[0] * 0.299) / 255;
+        }
+    }
+    _Value /=  _CamImage.rows/_step * _CamImage.cols/_step;
+
+    return _Value*100;
+}
 
 std::string Window::GetCity(std::string _from)
 {
@@ -260,14 +289,14 @@ std::string Window::GetStreet(std::string _from)
 
 void Window::keyPressEvent(QKeyEvent *_keypressEvent)
 {
-    if ((_keypressEvent->key() == Qt::Key_Escape) & (this->windowState() == Qt::WindowNoState))
+    if ((_keypressEvent->key() == Qt::Key_Escape) && (this->windowState() == Qt::WindowNoState))
     {
         mQuit = true;
 
         this->close();
         exit(0);
     }
-    else if ((_keypressEvent->key() == Qt::Key_Escape) & (this->windowState() == Qt::WindowFullScreen))
+    else if ((_keypressEvent->key() == Qt::Key_Escape) && (this->windowState() == Qt::WindowFullScreen))
     {
         mWinSize = { 1124, 600 };
         this->InitWindow(mWinName, mWinSize, Qt::WindowFullScreen);
@@ -697,6 +726,10 @@ void Window::ShowVideo()
                     // qWarning () << "Processing image: " << mFrameCounter;
                     this->mFrameCounter++;
                     this->mSlider->setSliderPosition(mFrameCounter);
+                    this->mBrightnessOfImage = CalculateBrightness(mCVImage);
+                    QString _brightnessText = "Brightness: " + QString::number(mBrightnessOfImage)+ "%";
+                    this->mBrightnessInfo->setText(_brightnessText);
+                    this->mBrightnessInfo->adjustSize();
 
                     this->mImageLabel->setPixmap(QPixmap::fromImage( cvMatToQImage(ProcessImage(mCVImage))));
                 }
